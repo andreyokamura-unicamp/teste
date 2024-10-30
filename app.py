@@ -10,4 +10,4 @@ if __name__ == '__main__':
     
 @app.route('/')
 def homepage():
-    return teste
+    return "teste"
