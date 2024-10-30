@@ -1,0 +1,148 @@
+html, body { 
+    margin:0; 
+    padding:0; 
+    height:100%;
+    width: 100%; 
+    background-color: aliceblue;
+    overflow: hidden;
+  }
+
+  .main_col{
+    float: left;
+    height: 90%;
+    width: 50%;
+  }
+  
+
+  div.internal{
+
+    overflow: auto;
+    height: 100%;
+    max-height: 100%;
+    border:1px solid black;
+    float: left;
+    margin: 0px;
+    user-select: none;
+    -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+
+}
+
+
+  .drop-area {
+    width: 400px;
+    height: 200px;
+    margin: 20px auto;
+    text-align: center;
+    line-height: 200px;
+    border: 2px dashed #ccc;
+    cursor: pointer;
+  }
+  .drop-area:hover{
+    background-color: rgba(240, 248, 255, 0.3);
+  }
+
+#fileInput {
+  border: 2px dashed #ccc;
+  cursor: pointer;
+  text-align: center;
+}
+#fileInput:hover {
+  background-color: rgba(240, 248, 255, 0.3);
+}
+
+#btn_enviar {
+  background-color: aquamarine;
+  font-weight: bold;
+  margin: 50px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+#btn_enviar:hover {
+  background-color: rgba(127, 255, 212, 0.3);
+}
+
+
+table {
+  width: 100%;
+}
+  #sim_sent_table tr {
+    background-color: rgb(173, 216, 230);
+    
+    border: 1px solid black;
+  }
+
+  #sim_sent_table tr:hover {
+    background-color: rgba(173, 216, 230, 0.3);
+    border: 1px solid black;
+  }
+
+  #erro_table tr {
+    background-color: rgb(173, 216, 230);
+    border: 1px solid black;
+  }
+  #erro_table tr:hover {
+    background-color: rgba(173, 216, 230, 0.3);
+    border: 1px solid black;
+  }
+
+  tr{
+    background-color: 	rgb(144, 238, 144);
+    border: 1px solid black;
+  }
+
+  tr:hover{
+    background-color: 	rgba(144, 238, 144, 0.3);
+    border: 1px solid black;
+  }
+
+  .incorrect{
+    background-color: rgb(245, 233, 66);
+    border: 1px solid black;
+  }
+  .incorrect:hover{
+    background-color: rgb(245, 233, 66, 0.3);
+    border: 1px solid black;
+  }
+  .erro_clasif{
+    background-color: crimson;
+  }
+
+  .erro{
+    background-color: indianred;
+  }
+  .erro:hover {
+    background-color: rgba(205, 92, 92, 0.3);
+  }
+
+  tr.selected {
+    background-color: white;
+}
+
+.inter {
+  height: 60%;
+  max-height: 60%;
+  width: 21%;
+  margin: 2%;
+  background-color: cadetblue;
+  float: left;
+}
+.inter:hover {
+  background-color: rgba(95, 158, 160, 0.3);
+  cursor: pointer;
+}
+
+ul{
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.auto_height {
+  width: 100%;
+}
