@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <script>
+        //let sent_list_json;// = {{data}};|tojson 
+// var parte1 = {{ result_parte1 }};
+// var incorrect_loss = {{ result_incorrect_loss }};
+// var incorrect_hazard = {{ result_incorrect_hazard }};
+// var incorrect_constraint = {{ result_incorrect_constraint }};
+// var list_sim_loss = {{ result_list_sim_loss }};
+// var list_sim_hazard = {{ result_list_sim_hazard }};
+// var list_sim_constraint = {{ result_list_sim_constraint }};
+//let list_erro_loss = {{result_list_erro_loss}};
+//let list_erro_hazard = {{result_list_erro_hazard}};
+//let list_erro_constraint = {{result_list_erro_constraint}};
+</script>
+        <script src="{{url_for('.static', filename='script.js')}}"></script>
+
+    <link rel="stylesheet"  type="text/css" href="{{url_for('.static', filename='style.css')}}">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STPA classificador</title>
+</head>
+<body  onload="start({{ result_parte1 }}, {{ result_incorrect_loss }}, {{ result_incorrect_hazard }}, {{ result_incorrect_constraint }},{{ result_list_sim_loss }},{{ result_list_sim_hazard }},{{ result_list_sim_constraint }},{{result_list_erro_loss}},{{result_list_erro_hazard}},{{result_list_erro_constraint}})"><!--/*data*/-->
+    <div class="internal" style="width: 100%; height: 9%; float:none;  overflow: hidden;">
+        <h1 style="float: left;">Classificador STPA</h1>
+
+    </div>
+
+    <div class="main_col">
+        <div class="internal" id="all_sent", style="width: 100%; height: 90%;">
+
+        <table id="all_sent_table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Sentença</th>
+                    <th>Rótulo orig.</th>
+                    <th>Predito</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+            
+
+        </table>
+            
+    </div>
+    <div class="internal", style="width: 100%; height: 10%; max-height: 10%; overflow: hidden;">
+
+        <div class="inter" onclick="addData_correct()">Filtrar apenas sentenças corretas</div>
+        <div class="inter" onclick="addData_incorrect()">Filtrar apenas sentenças incorretas</div>
+        <div class="inter" onclick="addData_erro()">Filtrar erros de classificação</div>
+        <div class="inter" onclick="update_table()">Retomar ao estado original</div>
+        
+
+            
+    </div>
+</div>
+        
+        <div class="main_col">
+
+            <div class="internal" style="width: 100%; height: 15%; ">
+                <p>Sentença selecionada:</p>
+                <table id="select_sent">
+                    <tr id="select_row">
+                        <td id='select_id'>ID</td>
+                        <td id='select_req'>Sentença</td>
+                        <td id='select_label'>Rótulo orig.</td>
+                        <td id='select_pred'>Predito</td>
+                    </tr>
+    
+                </table>
+            </div>
+            <div id='similar_sent' class="internal" style="width: 100%; height: 50%;">
+                <p>Sugestões de sentenças corretas mais similares:</p>
+                <table id="sim_sent_table">
+                    <thead>
+                        <tr>
+                            <th>Probabilidade</th>
+                            <th>Sentença correta</th>
+                        </tr>
+                    </thead>
+                    <tbody id="similar_tbody"></tbody>
+    
+                </table>
+            </div>
+    <div class="internal" style="width: 100%; height: 35%;">
+    <p id="p_erro"></p>
+    <p>Probabilidade dos tipos de erro:</p>
+    <table id="erro_table">
+        <thead>
+            <tr>
+                <th>Probabilidade</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody id="erro_tbody"></tbody>
+    
+    </table>
+    </div>
+
+        </div>
+            
+        
+
+</body>
+
+<script>
+    function convert_label(txt){
+        switch(txt){
+            case 'loss':
+                return 0;
+            case 'hazard':
+                return 1;
+            case 'constraint':
+                return 2;
+
+        }
+    }
+    let prev_class = '';
+    let list_labels = ['loss', 'hazard', 'constraint'];
+    
+    table = document.getElementById('all_sent_table');
+    selected = table.getElementsByClassName('selected');
+    //table.onclick = highlight;  
+    
+    table.onclick = function(event){
+    event = event || window.event; //for IE8 backward compatibility
+    var target = event.target || event.srcElement; //for IE8 backward compatibility
+    while (target && target.nodeName != 'TR') {
+        target = target.parentElement;
+    }
+    var cells = target.cells; //cells collection
+    //var cells = target.getElementsByTagName('td'); //alternative
+    if (!cells.length || target.parentNode.nodeName == 'THEAD') { // if clicked row is within thead
+        return;
+    }
+    var id, req, label, pred;
+    id = cells[0].innerHTML;
+    req = cells[1].innerHTML;
+    label = cells[2].innerHTML;
+    pred = cells[3].innerHTML;
+    if(document.getElementById('select_id').innerText != id){
+        document.getElementById('select_row').className = event.target.parentNode.className;
+    }
+    document.getElementById('select_id').innerText = id;
+    document.getElementById('select_req').innerText = req;
+    document.getElementById('select_label').innerText = label;
+    document.getElementById('select_pred').innerText = pred;
+    
+    //document.getElementById('select_row').className = event.target.parentNode.className;
+    
+    //if(incorrect_ids.includes(id)){event.target.parentNode.className = 'selected';}
+    if(event.target.parentNode.className != 'selected')
+    {
+    if (selected[0]) selected[0].className = prev_class;
+    prev_class = event.target.parentNode.className;
+    event.target.parentNode.className = 'selected';
+    
+    start2(convert_label(pred),id);
+    show_erro(convert_label(pred),id);
+    }
+    }
+    </script>
+</html>
+

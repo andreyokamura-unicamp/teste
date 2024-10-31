@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel="stylesheet"  type="text/css" href="{{url_for('.static', filename='style.css')}}">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STPA classificador</title>
+</head>
+<body>
+        <h1>Classificador STPA</h1>
+        
+        <div class="internal" style="width: 49%; float: left; text-align: center;">
+            <h2>Fazer Upload de arquivo</h2>
+            <p style="text-align: left; margin: 20px;">
+                Bem vindo ao Clsssificador STPA.
+                <br /><br />
+                Este Website auxilia na execução do primeiro passo da análise STPA, detectando possíveis erros de escrita em sentenças textuais de Perdas (Losses), Perigos ao Nível de Sistema (System-Level Hazards) e Restrições ao Nível de Sistema (System-Level Constraints).
+                <br /><br />
+                Este modelo classifica as sentenças inseridas em corretas (verde) e incorretas (amarelo). Além disso, para as sentenças incorretas, ele fornece o tipo de erro mais provável da sentença, e sugestões de correção e sentenças corretas parecidas para serem usadas como referência na correção.
+                <br />
+            </p>
+            <div style="display: inline-block;">
+                <form id="form_upload" action = "/interface" method = "post" enctype="multipart/form-data">   
+                    <div id='dropContainer' class="drop-area">
+                        Arraste ".csv" aqui
+                      </div>
+                      <p>Ou selecione manualmente:</p>
+                    <input type="file" name="file" id='fileInput'/>
+                    <br />
+                    <input type="submit" value="Enviar!" id="btn_enviar"/>
+                </form> 
+            </div>
+        
+        </div>
+        <div class="internal" style="width: 49%; float: left; text-align: center;">
+            <h2>Preencher valores manualmente</h2>
+
+            <div style="display: inline-block;">
+                <form id="form_manual" action="/interface2" method="post" enctype="multipart/form-data">
+
+                    <h3>Losses</h3>
+                    <textarea name="text_loss" id="text_loss" rows="1" class="auto_height" onInput="auto_height(this)"></textarea>
+    
+                    <h3>System-Level Hazards</h3>
+                    <textarea name="text_hazard" id="text_hazard" rows="1" class="auto_height" onInput="auto_height(this)"></textarea>
+    
+                    <h3>System-Level Constraints</h3>
+                    <textarea name="text_constraint" id="text_constraint" rows="1" class="auto_height" onInput="auto_height(this)"></textarea>
+    
+    
+                    <input type="submit" value="Enviar!" id="btn_enviar"/>
+    
+                </form>
+            </div>
+            
+            
+        </div>
+</body>
+<script>
+
+function auto_height(elem) {  /* javascript */
+    elem.style.height = '1px';
+    elem.style.height = `${elem.scrollHeight}px`;
+}
+// window.addEventListener('keydown',function(e) {
+//         if (e.keyIdentifier=='U+000A' || e.keyIdentifier=='Enter' || e.keyCode==13) {
+//             if (e.target.nodeName=='INPUT' && e.target.type=='text') {
+//                 e.preventDefault();
+//                 return false;
+//             }
+//         }
+//     }, true);
+
+var elements = document.getElementById("form_manual").elements;
+console.log(elements)
+
+    dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
+  evt.preventDefault();
+};
+
+dropContainer.ondrop = function(evt) {
+    evt.preventDefault();
+  // pretty simple -- but not for IE :(
+  fileInput.files = evt.dataTransfer.files;
+
+  evt.preventDefault();
+};
+
+document.getElementById("loss_add_attrib").addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+              event.preventDefault();
+              if (document.getElementById("loss_add_attrib").value != "") { 
+                var li = document.createElement("li"); 
+                li.setAttribute("id", "dynamic_li");
+                var input = document.createElement("input");
+                input.setAttribute("id", "dynamic_input");
+                input.setAttribute("type", "text");
+                input.setAttribute("name", "");
+                input.setAttribute("value",document.getElementById("loss_add_attrib").value);
+                li.appendChild(input);
+                document.getElementById("loss_attrib_ul").appendChild(li);
+                document.getElementById("loss_add_attrib").value = "";
+              }
+            }
+          });
+          document.getElementById("hazard_add_attrib").addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+              event.preventDefault();
+              if (document.getElementById("hazard_add_attrib").value != "") { 
+                var li = document.createElement("li"); 
+                li.setAttribute("id", "dynamic_li");
+                var input = document.createElement("input");
+                input.setAttribute("id", "dynamic_input");
+                input.setAttribute("type", "text");
+                input.setAttribute("name", "");
+                input.setAttribute("value",document.getElementById("hazard_add_attrib").value);
+                li.appendChild(input);
+                document.getElementById("hazard_attrib_ul").appendChild(li);
+                document.getElementById("hazard_add_attrib").value = "";
+              }
+            }
+          });
+          document.getElementById("constraint_add_attrib").addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+              event.preventDefault();
+              if (document.getElementById("constraint_add_attrib").value != "") { 
+                var li = document.createElement("li"); 
+                li.setAttribute("id", "dynamic_li");
+                var input = document.createElement("input");
+                input.setAttribute("id", "dynamic_input");
+                input.setAttribute("type", "text");
+                input.setAttribute("name", "");
+                input.setAttribute("value",document.getElementById("constraint_add_attrib").value);
+                li.appendChild(input);
+                document.getElementById("constraint_attrib_ul").appendChild(li);
+                document.getElementById("constraint_add_attrib").value = "";
+              }
+            }
+          });
+</script>
+</html>
